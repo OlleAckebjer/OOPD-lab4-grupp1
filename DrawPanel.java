@@ -16,18 +16,6 @@ public class DrawPanel extends JPanel implements ICarPoints {
     BufferedImage volvoWorkshopImage;
     Point volvoWorkshopPoint = new Point(300, 300);
 
-//    void moveit(int index, int x, int y) {
-//
-//        carPoints.get(index).x = x;
-//        carPoints.get(index).y = y;
-//
-//    }
-
-//    void loadCarToWorkshop() {
-//        carImages.remove(0);
-//        carPoints.remove(0);
-//    }
-
     // Initializes the panel and reads the images
     public DrawPanel(int x, int y) {
         this.setDoubleBuffered(true);
@@ -43,18 +31,17 @@ public class DrawPanel extends JPanel implements ICarPoints {
             // pics.
             // if you are starting in IntelliJ.
 
-            BufferedImage volvoImage = ImageIO.read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Volvo240.jpg")));
-            BufferedImage saabImage = ImageIO.read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Saab95.jpg")));
-            BufferedImage scaniaImage = ImageIO.read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Scania.jpg")));
+            BufferedImage volvoImage = ImageIO
+                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Volvo240.jpg")));
+            BufferedImage saabImage = ImageIO
+                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Saab95.jpg")));
+            BufferedImage scaniaImage = ImageIO
+                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Scania.jpg")));
 
             carImages = new java.util.ArrayList<>(java.util.Arrays.asList(volvoImage, saabImage, scaniaImage));
-            /*
-             * carPoints.add(new Point(0, 0));
-             * carPoints.add(new Point(0, 100));
-             * carPoints.add(new Point(0, 200));
-             */
 
-            volvoWorkshopImage = ImageIO.read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/VolvoBrand.jpg")));
+            volvoWorkshopImage = ImageIO
+                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/VolvoBrand.jpg")));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

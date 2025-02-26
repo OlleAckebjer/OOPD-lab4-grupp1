@@ -59,7 +59,8 @@ public abstract class Cars implements Movable {
     }
 
     // set position
-    protected void setPosition(Point position) {
+
+    void setPosition(Point position) {
         if (position == null) {
             throw new IllegalArgumentException("Position cannot be null");
         }
@@ -124,9 +125,9 @@ public abstract class Cars implements Movable {
         }
         switch (direction) {
             case NORTH -> direction = Direction.WEST;
-            case EAST -> direction = Direction.SOUTH;
+            case EAST -> direction = Direction.NORTH;
             case SOUTH -> direction = Direction.EAST;
-            case WEST -> direction = Direction.NORTH;
+            case WEST -> direction = Direction.SOUTH;
             default -> {
             }
         }
@@ -141,6 +142,20 @@ public abstract class Cars implements Movable {
             case EAST -> direction = Direction.SOUTH;
             case SOUTH -> direction = Direction.WEST;
             case WEST -> direction = Direction.NORTH;
+            default -> {
+            }
+        }
+    }
+
+    public void turnAround() {
+        if (direction == null) {
+            throw new IllegalArgumentException("Direction must be set before turning.");
+        }
+        switch (direction) {
+            case NORTH -> direction = Direction.SOUTH;
+            case EAST -> direction = Direction.WEST;
+            case SOUTH -> direction = Direction.NORTH;
+            case WEST -> direction = Direction.EAST;
             default -> {
             }
         }

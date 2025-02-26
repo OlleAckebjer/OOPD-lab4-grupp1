@@ -3,21 +3,25 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ActionManager implements ICarsArrayList, ICarPoints {
+public class ActionManager implements IObjectsArrayList, ICarPoints {
     private final Timer timer;
+    private Garage<Volvo240> garage;
+    private CarController cc = new CarController();
 
-    CarView frame;
+    private CarView frame;
 
-    public ActionManager(CarController controller) {
+    public ActionManager() {
         int delay = 50;
         this.timer = new Timer(delay, new TimerListener());
+        frame = new CarView("CarSim 1.0", cc);
+        garage = new Garage<Volvo240>(10);
     }
 
-    public void start(){
+    public void start() {
         timer.start();
     }
 
-    public void stop(){
+    public void stop() {
         timer.stop();
     }
 
@@ -30,8 +34,7 @@ public class ActionManager implements ICarsArrayList, ICarPoints {
                 int y = (int) Math.round(car.getPosition().getY());
 
                 if (isCarOutOfBounds(x, y)) {
-                    car.turnLeft();
-                    car.turnLeft();
+                    car.turnAround();
                 }
 
                 if (car instanceof Volvo240) {
@@ -39,9 +42,7 @@ public class ActionManager implements ICarsArrayList, ICarPoints {
                     int y2 = 300;
                     double distance = Math.sqrt(Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2));
                     if (distance < 25) {
-                        car.stopEngine();
-                        loadCarToWorkshop();
-                        cars.remove(car);
+                        loadCarToWorkshop(car);
                         break; // break out of the loop
                     }
                 }
@@ -61,9 +62,24 @@ public class ActionManager implements ICarsArrayList, ICarPoints {
         return x < 0 || x > 700 || y < 0 || y > 500;
     }
 
-    void loadCarToWorkshop() {
-        carImages.removeFirst();
-        carPoints.removeFirst();
+    void loadCarToWorkshop(Cars car) {
+        car.stopEngine();
+        garage.addCar((Volvo240) car);
+        cars.remove(car);
+    }
+
+    public static void main(String[] args) {
+        // CarModel model = new CarModel();
+
+        ActionManager actionManager = new ActionManager();
+
+        IObjectsArrayList.cars.add(CarFactory.createVolvo240());
+        IObjectsArrayList.cars.add(CarFactory.createSaab95());
+        IObjectsArrayList.cars.add(CarFactory.createScania());
+
+        actionManager.start();
+        // Start the timer
+        // cc.timer.start();
     }
 
 }
