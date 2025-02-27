@@ -62,7 +62,7 @@ public class ActionManager implements ICarsArrayList, ICarPoints {
     }
 
     void loadCarToWorkshop() {
-        carImages.removeFirst();
+        //carImages.removeFirst();
         carPoints.removeFirst();
     }
 

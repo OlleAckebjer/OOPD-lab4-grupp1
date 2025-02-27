@@ -1,7 +1,7 @@
 
 import java.awt.*;
 
-public abstract class Cars implements Movable {
+public abstract class Cars implements IMovable {
 
     // variables
     private final int nrDoors; // Number of doors on the car
@@ -124,9 +124,9 @@ public abstract class Cars implements Movable {
         }
         switch (direction) {
             case NORTH -> direction = Direction.WEST;
-            case EAST -> direction = Direction.SOUTH;
+            case WEST -> direction = Direction.SOUTH;
             case SOUTH -> direction = Direction.EAST;
-            case WEST -> direction = Direction.NORTH;
+            case EAST -> direction = Direction.NORTH;
             default -> {
             }
         }
