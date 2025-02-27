@@ -5,7 +5,7 @@ import java.awt.Point;
  * Its responsibilities are to listen to the View and respond in an appropriate manner by
  * modifying the model state and the updating the view.
  */
-public class CarController implements IObjectsArrayList, ICarController {
+public class CarController implements ICarsArrayList, ICarController {
 
     // Calls the gas method for each car once
     public void gas(int amount) {

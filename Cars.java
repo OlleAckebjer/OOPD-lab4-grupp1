@@ -45,9 +45,16 @@ public abstract class Cars implements Movable {
         return currentSpeed;
     }
 
-    // test-getter
     public Point getPosition() {
         return new Point(position);
+    }
+
+    public int getX() {
+        return position.x;
+    }
+
+    public int getY() {
+        return position.y;
     }
 
     // setters
@@ -90,6 +97,9 @@ public abstract class Cars implements Movable {
     protected abstract double speedFactor();
 
     public void gas(double amount) {
+        if (currentSpeed == 0) {
+            throw new IllegalArgumentException("Can't gas engine off");
+        }
         if (isLoaded) {
             throw new IllegalArgumentException("Can't gas while loaded");
         }

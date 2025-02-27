@@ -17,7 +17,7 @@ public class CarFactory {
 
     public static Cars createScania() {
         Cars car = new Scania();
-        car.setPosition(new Point(0, 0));
+        car.setPosition(new Point(0, 200));
         return car;
     }
 

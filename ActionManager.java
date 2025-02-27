@@ -1,9 +1,16 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-public class ActionManager implements IObjectsArrayList, ICarPoints {
+public class ActionManager implements ICarsArrayList, ICarPoints {
     private final Timer timer;
     private Garage<Volvo240> garage;
     private CarController cc = new CarController();
@@ -43,15 +50,11 @@ public class ActionManager implements IObjectsArrayList, ICarPoints {
                     double distance = Math.sqrt(Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2));
                     if (distance < 25) {
                         loadCarToWorkshop(car);
-                        break; // break out of the loop
+                        continue;
                     }
                 }
 
                 car.move();
-
-                int index = cars.indexOf(car);
-                frame.drawPanel.movePoints(index, x, y);
-                // repaint() calls the paintComponent method of the panel
                 frame.drawPanel.repaint();
             }
 
@@ -63,9 +66,16 @@ public class ActionManager implements IObjectsArrayList, ICarPoints {
     }
 
     void loadCarToWorkshop(Cars car) {
+        if (carIsLoaded.get(cars.indexOf(car))) {
+            return;
+        }
         car.stopEngine();
         garage.addCar((Volvo240) car);
-        cars.remove(car);
+
+        // cars.remove(car);
+
+        carIsLoaded.set(cars.indexOf(car), true);
+
     }
 
     public static void main(String[] args) {
@@ -73,13 +83,21 @@ public class ActionManager implements IObjectsArrayList, ICarPoints {
 
         ActionManager actionManager = new ActionManager();
 
-        IObjectsArrayList.cars.add(CarFactory.createVolvo240());
-        IObjectsArrayList.cars.add(CarFactory.createSaab95());
-        IObjectsArrayList.cars.add(CarFactory.createScania());
+        actionManager.addCars(
+                new ArrayList<>(Arrays.asList(CarFactory.createVolvo240(), CarFactory.createSaab95(),
+                        CarFactory.createScania())));
 
+        try {
+            BufferedImage volvoImage = ImageIO.read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream(
+                    "pics/Volvo240.jpg")));
+            BufferedImage saabImage = ImageIO
+                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Saab95.jpg")));
+            BufferedImage scaniaImage = ImageIO
+                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Scania.jpg")));
+            ICarsArrayList.carImages.addAll(Arrays.asList(volvoImage, saabImage, scaniaImage));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         actionManager.start();
-        // Start the timer
-        // cc.timer.start();
     }
-
 }

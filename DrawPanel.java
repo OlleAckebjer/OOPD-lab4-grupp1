@@ -8,10 +8,10 @@ import java.util.Objects;
 
 // This panel represents the animated part of the view with the car images.
 
-public class DrawPanel extends JPanel implements ICarPoints {
+public class DrawPanel extends JPanel implements ICarsArrayList {
 
     // TODO: Refactor Images into Interface Array for ActionManager and DrawPanel
-    List<BufferedImage> carImages;
+    // List<BufferedImage> carImages;
 
     BufferedImage volvoWorkshopImage;
     Point volvoWorkshopPoint = new Point(300, 300);
@@ -23,22 +23,6 @@ public class DrawPanel extends JPanel implements ICarPoints {
         this.setBackground(Color.green);
         // Print an error message in case file is not found with a try/catch block
         try {
-            // You can remove the "pics" part if running outside of IntelliJ and
-            // everything is in the same main folder.
-            // volvoImage = ImageIO.read(new File("Volvo240.jpg"));
-
-            // Remember to right-click src New -> Package -> name: pics -> MOVE *.jpg to
-            // pics.
-            // if you are starting in IntelliJ.
-
-            BufferedImage volvoImage = ImageIO
-                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Volvo240.jpg")));
-            BufferedImage saabImage = ImageIO
-                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Saab95.jpg")));
-            BufferedImage scaniaImage = ImageIO
-                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Scania.jpg")));
-
-            carImages = new java.util.ArrayList<>(java.util.Arrays.asList(volvoImage, saabImage, scaniaImage));
 
             volvoWorkshopImage = ImageIO
                     .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/VolvoBrand.jpg")));
@@ -53,8 +37,12 @@ public class DrawPanel extends JPanel implements ICarPoints {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (int i = 0; i < carImages.size(); i++) {
-            g.drawImage(carImages.get(i), carPoints.get(i).x, carPoints.get(i).y, null);
+        for (int i = 0; i < cars.size(); i++) {
+            if (!carIsLoaded.get(i)) {
+
+                g.drawImage(carImages.get(i), cars.get(i).getX(), cars.get(i).getY(),
+                        null);
+            }
         }
 
         // more info on the parameters
