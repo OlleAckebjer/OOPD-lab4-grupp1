@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
+// TODO: Currently responsible for far too many things. Break actions into a class, and timer simulation into another?
 public class CarModel implements ICarsArrayList, ICarPoints {
     private final Timer timer;
     private final Garage<Volvo240> garage;
