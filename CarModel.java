@@ -1,27 +1,23 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class ActionManager implements ICarsArrayList, ICarPoints {
+public class CarModel implements ICarsArrayList, ICarPoints {
     private final Timer timer;
-    private Garage<Volvo240> garage;
-    private CarController cc = new CarController();
+    private final Garage<Volvo240> garage;
+    private final List<ICarModelListener> listeners = new ArrayList<>();
 
-    private CarView frame;
-
-    public ActionManager() {
+    public CarModel() {
         int delay = 50;
         this.timer = new Timer(delay, new TimerListener());
-        frame = new CarView("CarSim 1.0", cc);
-        garage = new Garage<Volvo240>(10);
+        this.garage = new Garage<Volvo240>(10);
     }
 
     public void start() {
@@ -32,11 +28,23 @@ public class ActionManager implements ICarsArrayList, ICarPoints {
         timer.stop();
     }
 
+    public void addListener(ICarModelListener listener){
+        listeners.add(listener);
+    }
+
+    public void removeListener(ICarModelListener listener){
+        listeners.remove(listener);
+    }
+
+    public void notifyListeners(){
+        for (ICarModelListener listener : listeners){
+            listener.onCarModelUpdated();
+        }
+    }
+
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-
             for (Cars car : cars) {
-
                 int x = (int) Math.round(car.getPosition().getX());
                 int y = (int) Math.round(car.getPosition().getY());
 
@@ -45,19 +53,16 @@ public class ActionManager implements ICarsArrayList, ICarPoints {
                 }
 
                 if (car instanceof Volvo240) {
-                    int x2 = 300;
-                    int y2 = 300;
+                    int x2 = 300, y2 = 300;
                     double distance = Math.sqrt(Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2));
                     if (distance < 25) {
                         loadCarToWorkshop(car);
                         continue;
                     }
                 }
-
                 car.move();
-                frame.drawPanel.repaint();
             }
-
+            notifyListeners();
         }
     }
 
@@ -76,14 +81,16 @@ public class ActionManager implements ICarsArrayList, ICarPoints {
 
         carIsLoaded.set(cars.indexOf(car), true);
 
+
+        //TODO: Could use methods for adding / removing new cars.
     }
 
     public static void main(String[] args) {
         // CarModel model = new CarModel();
 
-        ActionManager actionManager = new ActionManager();
+        CarModel carModel = new CarModel();
 
-        actionManager.addCars(
+        carModel.addCars(
                 new ArrayList<>(Arrays.asList(CarFactory.createVolvo240(), CarFactory.createSaab95(),
                         CarFactory.createScania())));
 
@@ -98,6 +105,6 @@ public class ActionManager implements ICarsArrayList, ICarPoints {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        actionManager.start();
+        carModel.start();
     }
 }
