@@ -20,13 +20,13 @@ public class DrawPanel extends JPanel implements ICarsArrayList, ICarModelListen
     private BufferedImage garageImage;
 
     // Initializes the panel and reads the images
-    public DrawPanel(int x, int y, CarModel carModel) {
+    public DrawPanel(int x, int y, CarModel carModel, BufferedImage garageImage) {
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(x, y));
         this.setBackground(Color.green);
         this.carModel = carModel;
         carModel.addListener(this);
-        garageImage = carModel.getGarageImage();
+        this.garageImage = garageImage;
 
     }
 

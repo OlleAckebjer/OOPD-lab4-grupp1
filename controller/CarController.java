@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import model.*;
+import view.ImageFactory;
 
 /*
  * This class represents the Controller part in the MVC pattern.
@@ -100,12 +101,14 @@ public class CarController implements ICarsArrayList, ICarController {
             cars.add(newCar);
 
             if (newCar instanceof Volvo240) {
-                carImages.add(carImages.get(0));
+                carImages.add(ImageFactory.createVolvoImage());
             } else if (newCar instanceof Saab95) {
-                carImages.add(carImages.get(1));
+                carImages.add(ImageFactory.createSaabImage());
             } else if (newCar instanceof Scania) {
-                carImages.add(carImages.get(2));
+                carImages.add(ImageFactory.createScaniaImage());
             }
+        } else {
+            System.out.println("Can't add more cars to the list");
         }
     }
 

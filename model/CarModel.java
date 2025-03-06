@@ -2,6 +2,8 @@ package model;
 
 import javax.swing.*;
 
+import model.Cars.Direction;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Point;
@@ -14,7 +16,9 @@ public class CarModel implements ICarsArrayList {
     private final Timer timer;
     private final List<ICarModelListener> listeners = new ArrayList<>();
     private Garage<Volvo240> volvoGarage;
-    private BufferedImage garageImage;
+    private final int distanceThreshold = 25;
+    private final int carHeight = 60;
+    private final int carWidth = 100;
 
     public CarModel() {
         int delay = 50;
@@ -51,13 +55,15 @@ public class CarModel implements ICarsArrayList {
         return volvoGarage;
     }
 
-    public void setGarageImage(BufferedImage garageImage) {
-        this.garageImage = garageImage;
-    }
-
-    public BufferedImage getGarageImage() {
-        return garageImage;
-    }
+    /*
+     * public void setGarageImage(BufferedImage garageImage) {
+     * this.garageImage = garageImage;
+     * }
+     * 
+     * public BufferedImage getGarageImage() {
+     * return garageImage;
+     * }
+     */
 
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -65,14 +71,16 @@ public class CarModel implements ICarsArrayList {
                 int x = (int) Math.round(car.getPosition().getX());
                 int y = (int) Math.round(car.getPosition().getY());
 
-                if (isCarOutOfBounds(x, y)) {
+                if (isCarOutOfBounds(car)) {
                     car.turnAround();
                 }
 
                 if (car instanceof Volvo240) {
-                    int x2 = 300, y2 = 300;
+                    int x2 = getGarage().getPosition().x;
+                    int y2 = getGarage().getPosition().y;
+
                     double distance = Math.sqrt(Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2));
-                    if (distance < 25) {
+                    if (distance < distanceThreshold) {
                         loadCarToWorkshop(car);
                         continue;
                     }
@@ -83,8 +91,23 @@ public class CarModel implements ICarsArrayList {
         }
     }
 
-    private boolean isCarOutOfBounds(int x, int y) {
-        return x < 0 || x > 700 || y < 0 || y > 500;
+    private boolean isCarOutOfBounds(Cars car) {
+        int x = car.getX();
+        int y = car.getY();
+        Direction dir = car.getDirection(); // Assuming Direction is an enum
+
+        boolean movingOutOfBounds = false;
+        if (x < 0 && dir == Direction.WEST) {
+            movingOutOfBounds = true;
+        } else if (x > 800 - carWidth && dir == Direction.EAST) { // Assuming 800 is the width boundary
+            movingOutOfBounds = true;
+        } else if (y < 0 && dir == Direction.SOUTH) {
+            movingOutOfBounds = true;
+        } else if (y > 560 - carHeight && dir == Direction.NORTH) { // Assuming 600 is the height boundary
+            movingOutOfBounds = true;
+        }
+
+        return movingOutOfBounds;
     }
 
     private void loadCarToWorkshop(Cars car) {

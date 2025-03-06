@@ -8,7 +8,7 @@ public class CarTransport extends Cars implements IHasFlatbed {
     private final ArrayList<Cars> loadedCars = new ArrayList<>();
 
     public CarTransport() {
-        super(2, 700, Color.WHITE, "Scania");
+        super(2, 700, Color.WHITE, "Scania", new Point(0, 0));
     }
 
     // Helper method to check if the car is moving

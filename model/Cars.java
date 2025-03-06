@@ -15,7 +15,7 @@ public abstract class Cars implements Movable, IHasPosition { // implements Load
     // private boolean isLoaded = false; // Whether the car is loaded or not
     private ICarState state; // State pattern
 
-    private enum Direction {
+    enum Direction {
         NORTH, EAST, SOUTH, WEST
     }
 
@@ -193,5 +193,9 @@ public abstract class Cars implements Movable, IHasPosition { // implements Load
             default -> {
             }
         }
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }

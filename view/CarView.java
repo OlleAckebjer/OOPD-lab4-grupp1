@@ -10,6 +10,7 @@ import model.CarModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 /**
  * This class represents the full view of the MVC pattern of your car simulator.
@@ -51,9 +52,9 @@ public class CarView extends JFrame {
     private final JButton removeCarButton = new JButton("Remove a car");
 
     // Constructor
-    public CarView(String framename, ICarController cc, CarModel model) {
+    public CarView(String framename, ICarController cc, CarModel model, DrawPanel drawPanel) {
         this.carC = cc;
-        this.drawPanel = new DrawPanel(X, Y - 240, model);
+        this.drawPanel = drawPanel;
         initComponents(framename);
     }
 
