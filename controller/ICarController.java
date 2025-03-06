@@ -20,4 +20,8 @@ public interface ICarController {
     void turnRight();
 
     void turnLeft();
+
+    void addCar();
+
+    void removeCar();
 }

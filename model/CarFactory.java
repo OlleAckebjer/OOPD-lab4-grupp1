@@ -1,6 +1,8 @@
 package model;
 
 import java.awt.Point;
+import java.util.Random;
+import java.util.function.Supplier;
 // import Volvo240; // Replace 'your.package' with the actual package name where Volvo240 is defined
 
 public class CarFactory {
@@ -20,4 +22,11 @@ public class CarFactory {
         return car;
     }
 
+    public static Cars createRandomCar(){
+        Supplier<Cars>[] carSuppliers = new Supplier[]{
+                CarFactory::createVolvo240, CarFactory::createSaab95, CarFactory::createScania
+        };
+        Random rand = new Random();
+        return carSuppliers[rand.nextInt(carSuppliers.length)].get();
+    }
 }

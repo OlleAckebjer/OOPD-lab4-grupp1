@@ -2,12 +2,7 @@ package controller;
 
 import java.awt.Point;
 
-import model.Cars;
-import model.ICarsArrayList;
-import model.IHasFlatbed;
-import model.IHasTurbo;
-import model.Saab95;
-import model.Scania;
+import model.*;
 
 /*
  * This class represents the Controller part in the MVC pattern.
@@ -88,10 +83,21 @@ public class CarController implements ICarsArrayList, ICarController {
     }
 
     public void turnLeft() {
-        System.out.println("Turning left");
-        System.out.println(ICarsArrayList.cars);
         for (Cars car : ICarsArrayList.cars) {
             car.turnLeft();
+        }
+    }
+
+    public void addCar(){
+        if (cars.size() < 10){
+            Cars newCar = CarFactory.createRandomCar();
+            cars.add(newCar);
+        }
+    }
+
+    public void removeCar(){
+        if (!cars.isEmpty()){
+            cars.removeLast();
         }
     }
 

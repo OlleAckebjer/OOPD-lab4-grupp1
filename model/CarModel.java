@@ -76,8 +76,6 @@ public class CarModel implements ICarsArrayList {
         car.stopEngine();
         garage.addCar((Volvo240) car);
         car.setState(new InGarageState());
-
-        // TODO: Could use methods for adding / removing new cars.
     }
 
 }
