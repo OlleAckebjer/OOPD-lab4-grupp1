@@ -7,7 +7,7 @@ import java.util.List;
 public class Garage<T extends Cars> implements IHasPosition {
     private final int maxCapacity;
     private final List<T> cars = new ArrayList<>();
-    private Point position = new Point(0, 0);
+    private Point position;
 
     public Garage(int size, Point position) {
         this.maxCapacity = size;

@@ -4,19 +4,21 @@ import javax.swing.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 // TODO: Currently responsible for far too many things. Break actions into a class, and timer simulation into another?
 public class CarModel implements ICarsArrayList {
     private final Timer timer;
-    private final Garage<Volvo240> garage;
     private final List<ICarModelListener> listeners = new ArrayList<>();
+    private Garage<Volvo240> volvoGarage;
+    private BufferedImage garageImage;
 
     public CarModel() {
         int delay = 50;
         this.timer = new Timer(delay, new TimerListener());
-        this.garage = new Garage<Volvo240>(10, new java.awt.Point(300, 300));
     }
 
     public void start() {
@@ -39,6 +41,22 @@ public class CarModel implements ICarsArrayList {
         for (ICarModelListener listener : listeners) {
             listener.onCarModelUpdated();
         }
+    }
+
+    public void setGarage(Garage<Volvo240> volvoGarage) {
+        this.volvoGarage = volvoGarage;
+    }
+
+    public Garage<Volvo240> getGarage() {
+        return volvoGarage;
+    }
+
+    public void setGarageImage(BufferedImage garageImage) {
+        this.garageImage = garageImage;
+    }
+
+    public BufferedImage getGarageImage() {
+        return garageImage;
     }
 
     private class TimerListener implements ActionListener {
@@ -74,10 +92,8 @@ public class CarModel implements ICarsArrayList {
             return;
         }
         car.stopEngine();
-        garage.addCar((Volvo240) car);
+        volvoGarage.addCar((Volvo240) car);
         car.setState(new InGarageState());
 
-        // TODO: Could use methods for adding / removing new cars.
     }
-
 }

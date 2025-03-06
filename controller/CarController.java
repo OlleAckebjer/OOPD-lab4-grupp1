@@ -1,13 +1,9 @@
 package controller;
 
-import java.awt.Point;
-
 import model.Cars;
 import model.ICarsArrayList;
 import model.IHasFlatbed;
 import model.IHasTurbo;
-import model.Saab95;
-import model.Scania;
 
 /*
  * This class represents the Controller part in the MVC pattern.
@@ -21,7 +17,11 @@ public class CarController implements ICarsArrayList, ICarController {
         double gas = ((double) amount) / 100;
 
         for (Cars car : ICarsArrayList.cars) {
-            car.gas(gas);
+            try {
+                car.gas(gas);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -52,7 +52,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void turboOn() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasTurbo) {
-                ((Saab95) car).setTurboOn();
+                ((IHasTurbo) car).setTurboOn();
             }
         }
     }
@@ -60,7 +60,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void turboOff() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasTurbo) {
-                ((Saab95) car).setTurboOff();
+                ((IHasTurbo) car).setTurboOff();
             }
         }
     }
@@ -68,7 +68,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void liftBed() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasFlatbed) {
-                ((Scania) car).raiseRamp();
+                ((IHasFlatbed) car).raiseRamp();
             }
         }
     }
@@ -76,7 +76,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void lowerBed() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasFlatbed) {
-                ((Scania) car).lowerRamp();
+                ((IHasFlatbed) car).lowerRamp();
             }
         }
     }

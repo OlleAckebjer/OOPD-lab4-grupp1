@@ -16,12 +16,18 @@ import model.NotLoadedState;
 
 public class DrawPanel extends JPanel implements ICarsArrayList, ICarModelListener {
 
+    private CarModel carModel;
+    private BufferedImage garageImage;
+
     // Initializes the panel and reads the images
     public DrawPanel(int x, int y, CarModel carModel) {
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(x, y));
         this.setBackground(Color.green);
+        this.carModel = carModel;
         carModel.addListener(this);
+        garageImage = carModel.getGarageImage();
+
     }
 
     // This method is called each time the panel updates/refreshes/repaints itself
@@ -36,9 +42,9 @@ public class DrawPanel extends JPanel implements ICarsArrayList, ICarModelListen
                         null);
             }
         }
-        for (int i = 0; i < garageImages.size(); i++) {
-            g.drawImage(garageImages.get(i), 300, 300, null); // TODO: fix hard coded values
-        }
+        Point garagePosition = carModel.getGarage().getPosition();
+
+        g.drawImage(garageImage, garagePosition.x, garagePosition.y, null);
 
     }
 

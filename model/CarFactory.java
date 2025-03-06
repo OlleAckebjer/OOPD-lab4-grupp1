@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Point;
-// import Volvo240; // Replace 'your.package' with the actual package name where Volvo240 is defined
 
 public class CarFactory {
 

@@ -9,10 +9,13 @@ import controller.CarController;
 import controller.ICarController;
 import model.CarFactory;
 import model.CarModel;
+import model.Garage;
 import model.ICarsArrayList;
+// import model.GarageImagePair;
+import model.Volvo240;
 import view.CarView;
-import view.DrawPanel;
 
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 public class Application {
@@ -37,16 +40,21 @@ public class Application {
                                         .read(Objects
                                                         .requireNonNull(Application.class
                                                                         .getResourceAsStream("/pics/Scania.jpg")));
-                        BufferedImage garageImage = ImageIO
+                        BufferedImage garageImageFile = ImageIO
                                         .read(Objects
                                                         .requireNonNull(Application.class
                                                                         .getResourceAsStream("/pics/VolvoBrand.jpg")));
 
                         ICarsArrayList.carImages.addAll(Arrays.asList(volvoImage, saabImage, scaniaImage));
-                        ICarsArrayList.garageImages.addAll(Arrays.asList(garageImage));
+                        BufferedImage garageImage = garageImageFile;
+                        carModel.setGarageImage(garageImage);
+
                 } catch (IOException ex) {
                         ex.printStackTrace();
                 }
+
+                Garage<Volvo240> volvoGarage = new Garage<>(10, new Point(300, 300));
+                carModel.setGarage(volvoGarage);
 
                 ICarController carController = new CarController();
 
