@@ -35,17 +35,20 @@ public class CarView extends JFrame {
     private int gasAmount = 0;
     private JLabel gasLabel = new JLabel("Amount of gas");
 
-    private JButton gasButton = new JButton("Gas");
-    private JButton brakeButton = new JButton("Brake");
-    private JButton turboOnButton = new JButton("Turbo on");
-    private JButton turboOffButton = new JButton("Turbo off");
-    private JButton liftBedButton = new JButton("Raise Bed");
-    private JButton lowerBedButton = new JButton("Lower Bed");
-    private JButton turnRightButton = new JButton("Turn right");
-    private JButton turnLeftButton = new JButton("Turn left");
+    private final JButton gasButton = new JButton("Gas");
+    private final JButton brakeButton = new JButton("Brake");
+    private final JButton turboOnButton = new JButton("Turbo on");
+    private final JButton turboOffButton = new JButton("Turbo off");
+    private final JButton liftBedButton = new JButton("Raise Bed");
+    private final JButton lowerBedButton = new JButton("Lower Bed");
+    private final JButton turnRightButton = new JButton("Turn right");
+    private final JButton turnLeftButton = new JButton("Turn left");
 
-    private JButton startButton = new JButton("Start all cars");
-    private JButton stopButton = new JButton("Stop all cars");
+    private final JButton startButton = new JButton("Start all cars");
+    private final JButton stopButton = new JButton("Stop all cars");
+
+    private final JButton addCarButton = new JButton("Add a car");
+    private final JButton removeCarButton = new JButton("Remove a car");
 
     // Constructor
     public CarView(String framename, ICarController cc, CarModel model) {
@@ -91,6 +94,9 @@ public class CarView extends JFrame {
 
         controlPanel.add(turboOffButton, 6);
         controlPanel.add(lowerBedButton, 7);
+
+        controlPanel.add(addCarButton, 8);
+        controlPanel.add(removeCarButton, 9);
 
         controlPanel.setPreferredSize(new Dimension((X / 2) + 4, 200));
         this.add(controlPanel);
@@ -174,6 +180,20 @@ public class CarView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 carC.turnLeft();
+            }
+        });
+
+        addCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carC.addCar();
+            }
+        });
+
+        removeCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carC.removeCar();
             }
         });
 

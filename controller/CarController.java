@@ -1,9 +1,9 @@
 package controller;
 
-import model.Cars;
-import model.ICarsArrayList;
-import model.IHasFlatbed;
-import model.IHasTurbo;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+
+import model.*;
 
 /*
  * This class represents the Controller part in the MVC pattern.
@@ -18,6 +18,7 @@ public class CarController implements ICarsArrayList, ICarController {
 
         for (Cars car : ICarsArrayList.cars) {
             try {
+
                 car.gas(gas);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -52,7 +53,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void turboOn() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasTurbo) {
-                ((IHasTurbo) car).setTurboOn();
+                ((Saab95) car).setTurboOn();
             }
         }
     }
@@ -60,7 +61,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void turboOff() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasTurbo) {
-                ((IHasTurbo) car).setTurboOff();
+                ((Saab95) car).setTurboOff();
             }
         }
     }
@@ -68,7 +69,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void liftBed() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasFlatbed) {
-                ((IHasFlatbed) car).raiseRamp();
+                ((Scania) car).raiseRamp();
             }
         }
     }
@@ -76,7 +77,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void lowerBed() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasFlatbed) {
-                ((IHasFlatbed) car).lowerRamp();
+                ((Scania) car).lowerRamp();
             }
         }
     }
@@ -88,10 +89,30 @@ public class CarController implements ICarsArrayList, ICarController {
     }
 
     public void turnLeft() {
-        System.out.println("Turning left");
-        System.out.println(ICarsArrayList.cars);
         for (Cars car : ICarsArrayList.cars) {
             car.turnLeft();
+        }
+    }
+
+    public void addCar() {
+        if (cars.size() < 10) {
+            Cars newCar = CarFactory.createRandomCar();
+            cars.add(newCar);
+
+            if (newCar instanceof Volvo240) {
+                carImages.add(carImages.get(0));
+            } else if (newCar instanceof Saab95) {
+                carImages.add(carImages.get(1));
+            } else if (newCar instanceof Scania) {
+                carImages.add(carImages.get(2));
+            }
+        }
+    }
+
+    public void removeCar() {
+        if (!cars.isEmpty()) {
+            cars.removeLast();
+            carImages.removeLast();
         }
     }
 

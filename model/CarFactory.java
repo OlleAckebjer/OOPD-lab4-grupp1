@@ -1,6 +1,12 @@
 package model;
 
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.function.Supplier;
+// import Volvo240; // Replace 'your.package' with the actual package name where Volvo240 is defined
 
 public class CarFactory {
 
@@ -19,4 +25,11 @@ public class CarFactory {
         return car;
     }
 
+    public static Cars createRandomCar() {
+
+        ArrayList<Cars> randomCars = new ArrayList<>(Arrays.asList(createVolvo240(), createSaab95(), createScania()));
+        Random rand = new Random();
+
+        return randomCars.get(rand.nextInt(randomCars.size()));
+    }
 }
