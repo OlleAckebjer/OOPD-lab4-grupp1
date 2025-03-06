@@ -1,7 +1,8 @@
+package model;
 
 import java.awt.*;
 
-public abstract class Cars implements Movable {
+public abstract class Cars implements Movable, IHasPosition { // implements Loadable - can use state pattern
 
     // variables
     private final int nrDoors; // Number of doors on the car
@@ -11,7 +12,8 @@ public abstract class Cars implements Movable {
     private final String modelName; // The car model name
     private Point position; // The car's current position
     private Direction direction; // The car's current direction
-    private boolean isLoaded = false; // Whether the car is loaded or not
+    // private boolean isLoaded = false; // Whether the car is loaded or not
+    private ICarState state; // State pattern
 
     private enum Direction {
         NORTH, EAST, SOUTH, WEST
@@ -19,13 +21,14 @@ public abstract class Cars implements Movable {
 
     // constructor - constructor is used to enforce open-closed principle, easier to
     // reimplement
-    public Cars(int nrDoors, double enginePower, Color color, String modelName) {
+    public Cars(int nrDoors, double enginePower, Color color, String modelName, Point position) {
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
         this.color = color;
         this.modelName = modelName;
-        this.position = new Point(0, 0);// position;
         this.direction = Direction.NORTH; // direction;
+        this.state = new NotLoadedState();
+        this.position = new Point(position); // defensive copying
     }
 
     // getters
@@ -57,6 +60,19 @@ public abstract class Cars implements Movable {
         return position.y;
     }
 
+    /* STATE PATTERN */
+    public void checkState() {
+        state.handleState(this);
+    }
+
+    public ICarState getState() {
+        return state;
+    }
+
+    public void setState(ICarState state) {
+        this.state = state;
+    }
+
     // setters
     public void setColor(Color clr) {
         if (color == null) {
@@ -66,17 +82,25 @@ public abstract class Cars implements Movable {
     }
 
     // set position
-
+    // To be able to set position when loaded, for instance have the same position
+    // as a truck
     void setPosition(Point position) {
+
         if (position == null) {
             throw new IllegalArgumentException("Position cannot be null");
+        }
+        if (!(state instanceof LoadedState)) {
+            throw new IllegalArgumentException("Can only set position when loaded");
         }
         this.position = position;
     }
 
     public void startEngine() {
-        if (isLoaded) {
-            throw new IllegalArgumentException("Can't start engine while loaded");
+        if (currentSpeed > 0) {
+            throw new IllegalArgumentException("Can't start engine while moving");
+        }
+        if (!(this.state instanceof NotLoadedState)) {
+            throw new IllegalArgumentException("Can only start engine when not loaded");
         }
         currentSpeed = 0.1;
     }
@@ -100,8 +124,8 @@ public abstract class Cars implements Movable {
         if (currentSpeed == 0) {
             throw new IllegalArgumentException("Can't gas engine off");
         }
-        if (isLoaded) {
-            throw new IllegalArgumentException("Can't gas while loaded");
+        if (!(this.state instanceof NotLoadedState)) {
+            throw new IllegalArgumentException("Can only gas when not loaded");
         }
         if (amount < 0 || amount > 1) {
             throw new IllegalArgumentException("amount must be between 0 and 1");
@@ -169,17 +193,5 @@ public abstract class Cars implements Movable {
             default -> {
             }
         }
-    }
-
-    public boolean isLoaded() {
-        return isLoaded;
-    }
-
-    public void load() {
-        isLoaded = true;
-    }
-
-    public void unload() {
-        isLoaded = false;
     }
 }

@@ -1,12 +1,21 @@
+package model;
+
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Garage<T extends Cars> {
+public class Garage<T extends Cars> implements IHasPosition {
     private final int maxCapacity;
     private final List<T> cars = new ArrayList<>();
+    private Point position = new Point(0, 0);
 
-    public Garage(int size) {
+    public Garage(int size, Point position) {
         this.maxCapacity = size;
+        this.position = new Point(position); // Defensive copying
+    }
+
+    public Point getPosition() {
+        return new Point(position); // Return a copy of the position - deffensive copying
     }
 
     public void addCar(T car) {

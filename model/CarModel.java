@@ -1,15 +1,14 @@
-import javax.imageio.ImageIO;
+package model;
+
 import javax.swing.*;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+
 // TODO: Currently responsible for far too many things. Break actions into a class, and timer simulation into another?
-public class CarModel implements ICarsArrayList, ICarPoints {
+public class CarModel implements ICarsArrayList {
     private final Timer timer;
     private final Garage<Volvo240> garage;
     private final List<ICarModelListener> listeners = new ArrayList<>();
@@ -17,7 +16,7 @@ public class CarModel implements ICarsArrayList, ICarPoints {
     public CarModel() {
         int delay = 50;
         this.timer = new Timer(delay, new TimerListener());
-        this.garage = new Garage<Volvo240>(10);
+        this.garage = new Garage<Volvo240>(10, new java.awt.Point(300, 300));
     }
 
     public void start() {
@@ -28,16 +27,16 @@ public class CarModel implements ICarsArrayList, ICarPoints {
         timer.stop();
     }
 
-    public void addListener(ICarModelListener listener){
+    public void addListener(ICarModelListener listener) {
         listeners.add(listener);
     }
 
-    public void removeListener(ICarModelListener listener){
+    public void removeListener(ICarModelListener listener) {
         listeners.remove(listener);
     }
 
-    public void notifyListeners(){
-        for (ICarModelListener listener : listeners){
+    public void notifyListeners() {
+        for (ICarModelListener listener : listeners) {
             listener.onCarModelUpdated();
         }
     }
@@ -70,41 +69,15 @@ public class CarModel implements ICarsArrayList, ICarPoints {
         return x < 0 || x > 700 || y < 0 || y > 500;
     }
 
-    void loadCarToWorkshop(Cars car) {
-        if (carIsLoaded.get(cars.indexOf(car))) {
+    private void loadCarToWorkshop(Cars car) {
+        if (car.getState() instanceof InGarageState) {
             return;
         }
         car.stopEngine();
         garage.addCar((Volvo240) car);
+        car.setState(new InGarageState());
 
-        // cars.remove(car);
-
-        carIsLoaded.set(cars.indexOf(car), true);
-
-
-        //TODO: Could use methods for adding / removing new cars.
+        // TODO: Could use methods for adding / removing new cars.
     }
 
-    public static void main(String[] args) {
-        // CarModel model = new CarModel();
-
-        CarModel carModel = new CarModel();
-
-        carModel.addCars(
-                new ArrayList<>(Arrays.asList(CarFactory.createVolvo240(), CarFactory.createSaab95(),
-                        CarFactory.createScania())));
-
-        try {
-            BufferedImage volvoImage = ImageIO.read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream(
-                    "pics/Volvo240.jpg")));
-            BufferedImage saabImage = ImageIO
-                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Saab95.jpg")));
-            BufferedImage scaniaImage = ImageIO
-                    .read(Objects.requireNonNull(DrawPanel.class.getResourceAsStream("pics/Scania.jpg")));
-            ICarsArrayList.carImages.addAll(Arrays.asList(volvoImage, saabImage, scaniaImage));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        carModel.start();
-    }
 }

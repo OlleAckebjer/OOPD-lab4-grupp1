@@ -1,3 +1,5 @@
+package model;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -83,7 +85,7 @@ public class CarTransportTest {
     }
 
     @Test
-    void moveWhileRampLowered(){
+    void moveWhileRampLowered() {
         carTransport.lowerRamp();
         assertThrows(IllegalArgumentException.class, () -> carTransport.move());
     }
@@ -135,7 +137,7 @@ public class CarTransportTest {
     }
 
     @Test
-    void addMovingCar(){
+    void addMovingCar() {
         carTransport.lowerRamp();
         volvo240.startEngine();
         assertThrows(IllegalArgumentException.class, () -> carTransport.addCar(volvo240));

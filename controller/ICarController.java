@@ -1,3 +1,5 @@
+package controller;
+
 public interface ICarController {
     void gas(int amount);
 

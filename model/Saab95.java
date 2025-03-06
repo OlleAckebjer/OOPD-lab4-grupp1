@@ -1,3 +1,4 @@
+package model;
 
 import java.awt.*;
 
@@ -5,7 +6,11 @@ public class Saab95 extends Cars implements IHasTurbo {
     boolean turboOn = false;
 
     public Saab95() {
-        super(2, 125, Color.RED, "Saab95");
+        this(new Point(0, 0));
+    }
+
+    public Saab95(Point position) {
+        super(2, 125, Color.RED, "Saab95", new Point(position));
     }
 
     public void setTurboOn() {

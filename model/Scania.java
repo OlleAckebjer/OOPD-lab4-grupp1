@@ -1,11 +1,16 @@
+package model;
 
 import java.awt.*;
 
 public class Scania extends Cars implements IHasFlatbed {
     private int flatbedAngle = 0;
 
+    public Scania(Point position) {
+        super(4, 700, Color.WHITE, "Scania", new Point(position));
+    }
+
     public Scania() {
-        super(4, 700, Color.WHITE, "Scania");
+        this(new Point(0, 0));
     }
 
     // Helper method to adjust the ramp angle by a given change
