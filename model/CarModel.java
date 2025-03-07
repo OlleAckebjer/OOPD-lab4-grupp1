@@ -10,17 +10,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // TODO: Currently responsible for far too many things. Break actions into a class, and timer simulation into another?
-public class CarModel implements ICarsArrayList {
+public class CarModel {
     private final Timer timer;
     private final List<ICarModelListener> listeners = new ArrayList<>();
     private Garage<Volvo240> volvoGarage;
     private final int distanceThreshold = 25;
-    private final int carHeight = 60;
-    private final int carWidth = 100;
+    private final ArrayList<Cars> cars = new ArrayList<>();
+    private final int X;
+    private final int Y;
 
-    public CarModel() {
-        int delay = 50;
+    public CarModel(int x, int y, int delay) {
+        this.X = x;
+        this.Y = y;
         this.timer = new Timer(delay, new TimerListener());
+    }
+
+    public int getX() {
+        return X;
+    }
+
+    public int getY() {
+        return Y;
     }
 
     public void start() {
@@ -53,15 +63,17 @@ public class CarModel implements ICarsArrayList {
         return volvoGarage;
     }
 
-    /*
-     * public void setGarageImage(BufferedImage garageImage) {
-     * this.garageImage = garageImage;
-     * }
-     * 
-     * public BufferedImage getGarageImage() {
-     * return garageImage;
-     * }
-     */
+    public void addCars(List<Cars> cars) {
+        this.cars.addAll(cars);
+    }
+
+    public ArrayList<Cars> getCars() {
+        return cars;
+    }
+
+    public Cars getLastCar() {
+        return cars.get(cars.size() - 1);
+    }
 
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -97,11 +109,11 @@ public class CarModel implements ICarsArrayList {
         boolean movingOutOfBounds = false;
         if (x < 0 && dir == Direction.WEST) {
             movingOutOfBounds = true;
-        } else if (x > 800 - carWidth && dir == Direction.EAST) {
+        } else if (x > X - car.getWidth() && dir == Direction.EAST) {
             movingOutOfBounds = true;
         } else if (y < 0 && dir == Direction.SOUTH) {
             movingOutOfBounds = true;
-        } else if (y > 560 - carHeight && dir == Direction.NORTH) {
+        } else if (y > Y - car.getHeight() && dir == Direction.NORTH) {
             movingOutOfBounds = true;
         }
 
@@ -117,4 +129,107 @@ public class CarModel implements ICarsArrayList {
         car.setState(new InGarageState());
 
     }
+
+    // Calls the gas method for each car once
+    public void gas(int amount) {
+        double gas = ((double) amount) / 100;
+
+        for (Cars car : getCars()) {
+            try {
+
+                car.gas(gas);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void brake(int amount) {
+        double brake = ((double) amount) / 100;
+
+        for (Cars car : getCars()) {
+            car.brake(brake);
+        }
+    }
+
+    public void startCars() {
+        for (Cars car : getCars()) {
+            try {
+                car.startEngine();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void stopCars() {
+        for (Cars car : getCars()) {
+            car.stopEngine();
+        }
+    }
+
+    public void turboOn() {
+        for (Cars car : getCars()) {
+            if (car instanceof IHasTurbo) {
+                ((IHasTurbo) car).setTurboOn();
+            }
+        }
+    }
+
+    public void turboOff() {
+        for (Cars car : getCars()) {
+            if (car instanceof IHasTurbo) {
+                ((IHasTurbo) car).setTurboOff();
+            }
+        }
+    }
+
+    public void liftBed() {
+        for (Cars car : getCars()) {
+            if (car instanceof IHasFlatbed) {
+                ((IHasFlatbed) car).raiseRamp();
+            }
+        }
+    }
+
+    public void lowerBed() {
+        for (Cars car : getCars()) {
+            if (car instanceof IHasFlatbed) {
+                ((IHasFlatbed) car).lowerRamp();
+            }
+        }
+    }
+
+    public void turnRight() {
+        for (Cars car : getCars()) {
+            car.turnRight();
+        }
+    }
+
+    public void turnLeft() {
+        for (Cars car : getCars()) {
+            car.turnLeft();
+        }
+    }
+
+    public void addCar() {
+
+        if (cars.size() < 10) {
+            Cars newCar = CarFactory.createRandomCar();
+            cars.add(newCar);
+
+        } else {
+            System.out.println("Can't add more cars to the list");
+        }
+
+    }
+
+    public void removeCar() {
+
+        if (!cars.isEmpty()) {
+            cars.removeLast();
+        }
+
+    }
+
 }

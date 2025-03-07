@@ -1,21 +1,13 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
-
-import javax.imageio.ImageIO;
 
 import controller.CarController;
-import controller.ICarController;
 import model.CarFactory;
 import model.CarModel;
 import model.Garage;
-import model.ICarsArrayList;
-// import model.GarageImagePair;
 import model.Volvo240;
 import view.CarView;
 import view.DrawPanel;
-import view.ICarsImages;
 import view.ImageFactory;
 
 import java.awt.Point;
@@ -24,7 +16,11 @@ import java.awt.image.BufferedImage;
 public class CarGame {
         public static void main(String[] args) {
 
-                CarModel carModel = new CarModel();
+                int delay = 50;
+                int X = 800;
+                int Y = 560;
+
+                CarModel carModel = new CarModel(X, Y, delay);
 
                 carModel.addCars(
                                 new ArrayList<>(Arrays.asList(CarFactory.createVolvo240(new Point(0, 0)),
@@ -33,19 +29,20 @@ public class CarGame {
 
                 BufferedImage garageImage = ImageFactory.createImage("/pics/VolvoBrand.jpg");
 
-                Garage<Volvo240> volvoGarage = new Garage<>(10, new Point(300, 300));
+                Garage<Volvo240> volvoGarage = new Garage<>(10, new Point(300, 300), 100, 100);
                 carModel.setGarage(volvoGarage);
 
-                ICarController carController = new CarController();
-
-                DrawPanel drawPanel = new DrawPanel(800, 560, carModel, garageImage);
-
-                drawPanel.addImages(new ArrayList<>(Arrays.asList(
+                ArrayList<BufferedImage> carImages = new ArrayList<>(Arrays.asList(
                                 ImageFactory.createVolvoImage(),
                                 ImageFactory.createSaabImage(),
-                                ImageFactory.createScaniaImage())));
+                                ImageFactory.createScaniaImage()));
 
-                CarView frame = new CarView("CarSim 1.0", carController, carModel, drawPanel);
+                DrawPanel drawPanel = new DrawPanel(carModel, garageImage, carImages);
+
+                CarView frame = new CarView("CarSim 1.0", carModel, drawPanel);
+
+                int gasAmount = 100;
+                CarController carController = new CarController(carModel, frame, drawPanel, gasAmount);
 
                 carModel.start();
         }

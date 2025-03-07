@@ -17,4 +17,14 @@ public class Volvo240 extends Cars {
     protected double speedFactor() {
         return getEnginePower() * 0.01 * trimFactor;
     }
+
+    @Override
+    public int getWidth() {
+        return 100;
+    }
+
+    @Override
+    public int getHeight() {
+        return 60;
+    }
 }

@@ -28,4 +28,14 @@ public class Saab95 extends Cars implements IHasTurbo {
             turbo = 1.3;
         return getEnginePower() * 0.01 * turbo;
     }
+
+    @Override
+    public int getWidth() {
+        return 100;
+    }
+
+    @Override
+    public int getHeight() {
+        return 60;
+    }
 }

@@ -2,8 +2,7 @@ package model;
 
 import java.awt.*;
 
-public abstract class Cars implements Movable, IHasPosition { // implements Loadable - can use state pattern
-
+public abstract class Cars implements Movable, IHasPosition, IHasSize {
     // variables
     private final int nrDoors; // Number of doors on the car
     private final double enginePower; // Engine power of the car
@@ -12,7 +11,6 @@ public abstract class Cars implements Movable, IHasPosition { // implements Load
     private final String modelName; // The car model name
     private Point position; // The car's current position
     private Direction direction; // The car's current direction
-    // private boolean isLoaded = false; // Whether the car is loaded or not
     private ICarState state; // State pattern
 
     enum Direction {
@@ -119,6 +117,10 @@ public abstract class Cars implements Movable, IHasPosition { // implements Load
     } // .max() ensures that decrementation doesn't go below 0
 
     protected abstract double speedFactor();
+
+    public abstract int getHeight();
+
+    public abstract int getWidth();
 
     public void gas(double amount) {
         if (currentSpeed == 0) {

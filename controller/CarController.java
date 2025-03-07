@@ -1,10 +1,16 @@
 package controller;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import javax.swing.JComponent;
 
 import model.*;
-import view.ICarsImages;
+import view.CarView;
+import view.DrawPanel;
 import view.ImageFactory;
 
 /*
@@ -12,113 +18,106 @@ import view.ImageFactory;
  * Its responsibilities are to listen to the View and respond in an appropriate manner by
  * modifying the model state and the updating the view.
  */
-public class CarController implements ICarsArrayList, ICarController, ICarsImages {
+public class CarController {
 
-    // Calls the gas method for each car once
-    public void gas(int amount) {
-        double gas = ((double) amount) / 100;
+    private CarModel carModel;
+    private int gasAmount;
+    private CarView carView;
+    private DrawPanel drawPanel;
 
-        for (Cars car : ICarsArrayList.cars) {
-            try {
+    public CarController(CarModel carModel, CarView carView, DrawPanel drawPanel, int gasAmount) {
+        this.carModel = carModel;
+        this.carView = carView;
+        this.gasAmount = gasAmount;
+        this.drawPanel = drawPanel;
 
-                car.gas(gas);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+        // This actionListener is for the gas button only
+        carView.gasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.gas(gasAmount);
             }
-        }
-    }
+        });
 
-    public void brake(int amount) {
-        double brake = ((double) amount) / 100;
-
-        for (Cars car : ICarsArrayList.cars) {
-            car.brake(brake);
-        }
-    }
-
-    public void startCars() {
-        for (Cars car : ICarsArrayList.cars) {
-            try {
-                car.startEngine();
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+        carView.brakeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.brake(gasAmount);
             }
-        }
-    }
+        });
 
-    public void stopCars() {
-        for (Cars car : ICarsArrayList.cars) {
-            car.stopEngine();
-        }
-    }
-
-    public void turboOn() {
-        for (Cars car : ICarsArrayList.cars) {
-            if (car instanceof IHasTurbo) {
-                ((IHasTurbo) car).setTurboOn();
+        carView.startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.startCars();
             }
-        }
-    }
+        });
 
-    public void turboOff() {
-        for (Cars car : ICarsArrayList.cars) {
-            if (car instanceof IHasTurbo) {
-                ((IHasTurbo) car).setTurboOff();
+        carView.stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.stopCars();
             }
-        }
-    }
+        });
 
-    public void liftBed() {
-        for (Cars car : ICarsArrayList.cars) {
-            if (car instanceof IHasFlatbed) {
-                ((IHasFlatbed) car).raiseRamp();
+        carView.turboOnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.turboOn();
             }
-        }
-    }
+        });
 
-    public void lowerBed() {
-        for (Cars car : ICarsArrayList.cars) {
-            if (car instanceof IHasFlatbed) {
-                ((IHasFlatbed) car).lowerRamp();
+        carView.turboOffButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.turboOff();
             }
-        }
-    }
+        });
 
-    public void turnRight() {
-        for (Cars car : ICarsArrayList.cars) {
-            car.turnRight();
-        }
-    }
-
-    public void turnLeft() {
-        for (Cars car : ICarsArrayList.cars) {
-            car.turnLeft();
-        }
-    }
-
-    public void addCar() {
-        if (cars.size() < 10) {
-            Cars newCar = CarFactory.createRandomCar();
-            cars.add(newCar);
-
-            if (newCar instanceof Volvo240) {
-                carImages.add(ImageFactory.createVolvoImage());
-            } else if (newCar instanceof Saab95) {
-                carImages.add(ImageFactory.createSaabImage());
-            } else if (newCar instanceof Scania) {
-                carImages.add(ImageFactory.createScaniaImage());
+        carView.liftBedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.liftBed();
             }
+        });
 
-        } else {
-            System.out.println("Can't add more cars to the list");
-        }
-    }
+        carView.lowerBedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.lowerBed();
+            }
+        });
 
-    public void removeCar() {
-        if (!cars.isEmpty()) {
-            cars.removeLast();
-            carImages.removeLast();
-        }
+        carView.turnRightButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.turnRight();
+            }
+        });
+
+        carView.turnLeftButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.turnLeft();
+            }
+        });
+
+        carView.addCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.addCar();
+                drawPanel.setImageToCar();
+
+            }
+        });
+
+        carView.removeCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carModel.removeCar();
+                drawPanel.removeImage();
+            }
+        });
     }
 
 }

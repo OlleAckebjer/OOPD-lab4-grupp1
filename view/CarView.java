@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import controller.ICarController;
 import model.CarModel;
 
 import java.awt.*;
@@ -25,35 +24,30 @@ public class CarView extends JFrame {
     private static final int X = 800;
     private static final int Y = 800;
 
-    // The controller member
-    private ICarController carC;
-
     private JPanel controlPanel = new JPanel();
     private DrawPanel drawPanel;
 
     private JPanel gasPanel = new JPanel();
     private JSpinner gasSpinner = new JSpinner();
-    private int gasAmount = 0;
     private JLabel gasLabel = new JLabel("Amount of gas");
 
-    private final JButton gasButton = new JButton("Gas");
-    private final JButton brakeButton = new JButton("Brake");
-    private final JButton turboOnButton = new JButton("TurbOn");
-    private final JButton turboOffButton = new JButton("TurbOff");
-    private final JButton liftBedButton = new JButton("Raise");
-    private final JButton lowerBedButton = new JButton("Lower");
-    private final JButton turnRightButton = new JButton("Right");
-    private final JButton turnLeftButton = new JButton("Left");
+    public JButton gasButton = new JButton("Gas");
+    public JButton brakeButton = new JButton("Brake");
+    public JButton turboOnButton = new JButton("TurbOn");
+    public JButton turboOffButton = new JButton("TurbOff");
+    public JButton liftBedButton = new JButton("Raise");
+    public JButton lowerBedButton = new JButton("Lower");
+    public JButton turnRightButton = new JButton("Right");
+    public JButton turnLeftButton = new JButton("Left");
+    public JButton startButton = new JButton("Start all cars");
+    public JButton stopButton = new JButton("Stop all cars");
+    public JButton addCarButton = new JButton("Add");
+    public JButton removeCarButton = new JButton("Remove");
 
-    private final JButton startButton = new JButton("Start all cars");
-    private final JButton stopButton = new JButton("Stop all cars");
-
-    private final JButton addCarButton = new JButton("Add");
-    private final JButton removeCarButton = new JButton("Remove");
+    private int gasAmount = 0;
 
     // Constructor
-    public CarView(String framename, ICarController cc, CarModel model, DrawPanel drawPanel) {
-        this.carC = cc;
+    public CarView(String framename, CarModel model, DrawPanel drawPanel) {
         this.drawPanel = drawPanel;
         initComponents(framename);
     }
@@ -72,6 +66,7 @@ public class CarView extends JFrame {
                 100, // max
                 1);// step
         gasSpinner = new JSpinner(spinnerModel);
+
         gasSpinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 gasAmount = (int) ((JSpinner) e.getSource()).getValue();
@@ -110,91 +105,6 @@ public class CarView extends JFrame {
         stopButton.setForeground(Color.black);
         stopButton.setPreferredSize(new Dimension(X / 5 - 15, 200));
         this.add(stopButton);
-
-        // This actionListener is for the gas button only
-        gasButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.gas(gasAmount);
-            }
-        });
-
-        brakeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.brake(gasAmount);
-            }
-        });
-
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.startCars();
-            }
-        });
-
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.stopCars();
-            }
-        });
-
-        turboOnButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turboOn();
-            }
-        });
-
-        turboOffButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turboOff();
-            }
-        });
-
-        liftBedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.liftBed();
-            }
-        });
-
-        lowerBedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.lowerBed();
-            }
-        });
-
-        turnRightButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turnRight();
-            }
-        });
-
-        turnLeftButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turnLeft();
-            }
-        });
-
-        addCarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.addCar();
-            }
-        });
-
-        removeCarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.removeCar();
-            }
-        });
 
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
