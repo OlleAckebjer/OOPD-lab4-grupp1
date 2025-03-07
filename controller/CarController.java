@@ -2,50 +2,77 @@ package controller;
 
 import model.*;
 import view.CarView;
-import view.DrawPanel;
 
 /*
  * This class represents the Controller part in the MVC pattern.
  * Its responsibilities are to listen to the View and respond in an appropriate manner by
  * modifying the model state and the updating the view.
  */
-public class CarController {
+public class CarController implements IActionListener {
+    private final CarModel carModel;
 
-    private CarModel carModel;
-    private int gasAmount;
-    private CarView carView;
-    private DrawPanel drawPanel;
-
-    public CarController(CarModel carModel, CarView carView, DrawPanel drawPanel, int gasAmount) {
+    public CarController(CarModel carModel, CarView carView) {
         this.carModel = carModel;
-        this.carView = carView;
-        this.gasAmount = gasAmount;
-        this.drawPanel = drawPanel;
-        setupButtonListeners();
+        carView.setIActionListener(this);
     }
 
-    private void setupButtonListeners() {
-        carView.gasButton.addActionListener(e -> carModel.gas(gasAmount));
-        carView.brakeButton.addActionListener(e -> carModel.brake(gasAmount));
-        carView.startButton.addActionListener(e -> carModel.startCars());
-        carView.stopButton.addActionListener(e -> carModel.stopCars());
-        carView.turboOnButton.addActionListener(e -> carModel.turboOn());
-        carView.turboOffButton.addActionListener(e -> carModel.turboOff());
-        carView.liftBedButton.addActionListener(e -> carModel.liftBed());
-        carView.lowerBedButton.addActionListener(e -> carModel.lowerBed());
-        carView.turnRightButton.addActionListener(e -> carModel.turnRight());
-        carView.turnLeftButton.addActionListener(e -> carModel.turnLeft());
-        carView.addCarButton.addActionListener(e -> {
-            if (carModel.canCreateMoreCars()) {
-                carModel.addRandomCar();
-
-                drawPanel.setImageToLastCar();
-            }
-        });
-        carView.removeCarButton.addActionListener(e -> {
-            carModel.removeCar();
-            drawPanel.removeImage();
-        });
+    @Override
+    public void onGas(int amount) {
+        carModel.gas(amount);
     }
 
+    @Override
+    public void onBrake(int amount) {
+        carModel.brake(amount);
+    }
+
+    @Override
+    public void onStart() {
+        carModel.startCars();
+    }
+
+    @Override
+    public void onStop() {
+        carModel.stopCars();
+    }
+
+    @Override
+    public void onTurboOn() {
+        carModel.turboOn();
+    }
+
+    @Override
+    public void onTurboOff() {
+        carModel.turboOff();
+    }
+
+    @Override
+    public void onLiftBed() {
+        carModel.liftBed();
+    }
+
+    @Override
+    public void onLowerBed() {
+        carModel.lowerBed();
+    }
+
+    @Override
+    public void onTurnRight() {
+        carModel.turnRight();
+    }
+
+    @Override
+    public void onTurnLeft() {
+        carModel.turnLeft();
+    }
+
+    @Override
+    public void onAddCar() {
+        carModel.addCar();
+    }
+
+    @Override
+    public void onRemoveCar() {
+        carModel.removeCar();
+    }
 }

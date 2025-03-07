@@ -102,4 +102,14 @@ public class CarTransport extends Cars implements IHasFlatbed {
     protected double speedFactor() {
         return 1;
     }
+
+    @Override
+    public int getHeight() {
+        return 100;
+    }
+
+    @Override
+    public int getWidth() {
+        return 60;
+    }
 }
