@@ -1,12 +1,7 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
-
-import javax.imageio.ImageIO;
 
 import controller.CarController;
-import controller.ICarController;
 import model.CarFactory;
 import model.CarModel;
 import model.Garage;
@@ -14,7 +9,6 @@ import model.Garage;
 import model.Volvo240;
 import view.CarView;
 import view.DrawPanel;
-import view.ICarsImages;
 import view.ImageFactory;
 
 import java.awt.Point;
@@ -35,7 +29,6 @@ public class CarGame {
                 Garage<Volvo240> volvoGarage = new Garage<>(10, new Point(300, 300));
                 carModel.setGarage(volvoGarage);
 
-                CarController carController = new CarController(carModel);
 
                 DrawPanel drawPanel = new DrawPanel(800, 560, carModel, garageImage);
 
@@ -44,7 +37,9 @@ public class CarGame {
                                 ImageFactory.createSaabImage(),
                                 ImageFactory.createScaniaImage())));
 
-                CarView frame = new CarView("CarSim 1.0", carController, carModel, drawPanel);
+                CarView frame = new CarView("CarSim 1.0", carModel, drawPanel);
+
+                CarController carController = new CarController(carModel, frame);
 
                 carModel.start();
         }

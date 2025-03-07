@@ -5,13 +5,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import controller.CarController;
+import controller.IActionListener;
 import model.CarModel;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-
 /**
  * This class represents the full view of the MVC pattern of your car simulator.
  * It initializes with being center on the screen and attaching it's controller
@@ -26,8 +23,7 @@ public class CarView extends JFrame {
     private static final int Y = 800;
 
     // The controller member
-    private final CarController carC;
-
+    CarController carC;
     private final JPanel controlPanel = new JPanel();
     private final DrawPanel drawPanel;
 
@@ -48,12 +44,11 @@ public class CarView extends JFrame {
     private final JButton startButton = new JButton("Start all cars");
     private final JButton stopButton = new JButton("Stop all cars");
 
-    private final JButton addCarButton = new JButton("Add");
-    private final JButton removeCarButton = new JButton("Remove");
+    public final JButton addCarButton = new JButton("Add");
+    public final JButton removeCarButton = new JButton("Remove");
 
     // Constructor
-    public CarView(String framename, CarController cc, CarModel model, DrawPanel drawPanel) {
-        this.carC = cc;
+    public CarView(String framename, CarModel model, DrawPanel drawPanel) {
         this.drawPanel = drawPanel;
         initComponents(framename);
     }
@@ -111,20 +106,6 @@ public class CarView extends JFrame {
         stopButton.setPreferredSize(new Dimension(X / 5 - 15, 200));
         this.add(stopButton);
 
-        // Attach action listeners from the controller
-        gasButton.addActionListener(carC.getGasActionListener(gasSpinner));
-        brakeButton.addActionListener(carC.getBrakeActionListener(gasSpinner));
-        startButton.addActionListener(carC.getStartActionListener());
-        stopButton.addActionListener(carC.getStopActionListener());
-        turboOnButton.addActionListener(carC.getTurboOnActionListener());
-        turboOffButton.addActionListener(carC.getTurboOffActionListener());
-        liftBedButton.addActionListener(carC.getLiftBedActionListener());
-        lowerBedButton.addActionListener(carC.getLowerBedActionListener());
-        turnRightButton.addActionListener(carC.getTurnRightActionListener());
-        turnLeftButton.addActionListener(carC.getTurnLeftActionListener());
-        addCarButton.addActionListener(carC.getAddCarActionListener());
-        removeCarButton.addActionListener(carC.getRemoveCarActionListener());
-
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
 
@@ -137,4 +118,21 @@ public class CarView extends JFrame {
         // Make sure the frame exits when "x" is pressed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    // Attach action listeners from the controller
+    public void setIActionListener(IActionListener listener){
+        gasButton.addActionListener(e -> listener.onGas(gasAmount));
+        brakeButton.addActionListener(e -> listener.onBrake(gasAmount));
+        startButton.addActionListener(e -> listener.onStart());
+        stopButton.addActionListener(e -> listener.onStop());
+        turboOnButton.addActionListener(e -> listener.onTurboOn());
+        turboOffButton.addActionListener(e -> listener.onTurboOff());
+        liftBedButton.addActionListener(e -> listener.onLiftBed());
+        lowerBedButton.addActionListener(e -> listener.onLowerBed());
+        turnRightButton.addActionListener(e -> listener.onTurnRight());
+        turnLeftButton.addActionListener(e -> listener.onTurnLeft());
+        addCarButton.addActionListener(e -> listener.onAddCar());
+        removeCarButton.addActionListener(e -> listener.onRemoveCar());
+    }
+
 }

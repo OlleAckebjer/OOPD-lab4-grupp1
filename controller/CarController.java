@@ -1,72 +1,79 @@
 package controller;
 
-import java.awt.Point;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-
 import model.*;
-import view.ICarsImages;
-import view.ImageFactory;
-
-import javax.swing.*;
+import view.CarView;
+import view.DrawPanel;
 
 /*
  * This class represents the Controller part in the MVC pattern.
  * Its responsibilities are to listen to the View and respond in an appropriate manner by
  * modifying the model state and the updating the view.
  */
-public class CarController{
+public class CarController implements IActionListener {
     private final CarModel carModel;
 
-    public CarController(CarModel carModel) {
+    public CarController(CarModel carModel, CarView carView) {
         this.carModel = carModel;
+        carView.setIActionListener(this);
     }
 
-    public ActionListener getGasActionListener(JSpinner gasSpinner) {
-        return e -> carModel.gas((int) gasSpinner.getValue());
+    @Override
+    public void onGas(int amount) {
+        carModel.gas(amount);
     }
 
-    public ActionListener getBrakeActionListener(JSpinner brakeSpinner) {
-        return e -> carModel.brake((int) brakeSpinner.getValue());
+    @Override
+    public void onBrake(int amount) {
+        carModel.brake(amount);
     }
 
-    public ActionListener getStartActionListener() {
-        return e -> carModel.startCars();
+    @Override
+    public void onStart() {
+        carModel.startCars();
     }
 
-    public ActionListener getStopActionListener() {
-        return e -> carModel.stopCars();
+    @Override
+    public void onStop() {
+        carModel.stopCars();
     }
 
-    public ActionListener getTurboOnActionListener() {
-        return e -> carModel.turboOn();
+    @Override
+    public void onTurboOn() {
+        carModel.turboOn();
     }
 
-    public ActionListener getTurboOffActionListener() {
-        return e -> carModel.turboOff();
+    @Override
+    public void onTurboOff() {
+        carModel.turboOff();
     }
 
-    public ActionListener getLiftBedActionListener() {
-        return e -> carModel.liftBed();
+    @Override
+    public void onLiftBed() {
+        carModel.liftBed();
     }
 
-    public ActionListener getLowerBedActionListener() {
-        return e -> carModel.lowerBed();
+    @Override
+    public void onLowerBed() {
+        carModel.lowerBed();
     }
 
-    public ActionListener getTurnRightActionListener() {
-        return e -> carModel.turnRight();
+    @Override
+    public void onTurnRight() {
+        carModel.turnRight();
     }
 
-    public ActionListener getTurnLeftActionListener() {
-        return e -> carModel.turnLeft();
+    @Override
+    public void onTurnLeft() {
+        carModel.turnLeft();
     }
 
-    public ActionListener getAddCarActionListener() {
-        return e -> carModel.addCar();
+    @Override
+    public void onAddCar() {
+        carModel.addCar();
     }
 
-    public ActionListener getRemoveCarActionListener() {
-        return e -> carModel.removeCar();
+    @Override
+    public void onRemoveCar() {
+        carModel.removeCar();
     }
 }

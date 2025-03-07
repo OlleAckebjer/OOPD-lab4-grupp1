@@ -55,4 +55,8 @@ public class DrawPanel extends JPanel implements ICarModelListener, ICarsImages 
     public void onCarModelUpdated() {
         repaint();
     }
+
+    public void removeImage() {
+
+    }
 }
