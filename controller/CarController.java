@@ -9,70 +9,70 @@ import view.CarView;
  * modifying the model state and the updating the view.
  */
 public class CarController implements IActionListener {
-    private final CarModel carModel;
+    private final CarManager carManager;
 
-    public CarController(CarModel carModel, CarView carView) {
-        this.carModel = carModel;
+    public CarController(CarManager carManager, CarView carView) {
+        this.carManager = carManager;
         carView.setIActionListener(this);
     }
 
     @Override
     public void onGas(int amount) {
-        carModel.gas(amount);
+        carManager.gas(amount);
     }
 
     @Override
     public void onBrake(int amount) {
-        carModel.brake(amount);
+        carManager.brake(amount);
     }
 
     @Override
     public void onStart() {
-        carModel.startCars();
+        carManager.startCars();
     }
 
     @Override
     public void onStop() {
-        carModel.stopCars();
+        carManager.stopCars();
     }
 
     @Override
     public void onTurboOn() {
-        carModel.turboOn();
+        carManager.turboOn();
     }
 
     @Override
     public void onTurboOff() {
-        carModel.turboOff();
+        carManager.turboOff();
     }
 
     @Override
     public void onLiftBed() {
-        carModel.liftBed();
+        carManager.liftBed();
     }
 
     @Override
     public void onLowerBed() {
-        carModel.lowerBed();
+        carManager.lowerBed();
     }
 
     @Override
     public void onTurnRight() {
-        carModel.turnRight();
+        carManager.turnRight();
     }
 
     @Override
     public void onTurnLeft() {
-        carModel.turnLeft();
+        carManager.turnLeft();
     }
 
     @Override
     public void onAddCar() {
-        carModel.addCar();
+        carManager.addCar();
     }
 
     @Override
     public void onRemoveCar() {
-        carModel.removeCar();
+        carManager.removeCar();
     }
 }

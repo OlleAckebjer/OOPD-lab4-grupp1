@@ -9,11 +9,11 @@ import controller.IActionListener;
 import java.awt.*;
 /**
  * This class represents the full view of the MVC pattern of your car simulator.
- * It initializes with being center on the screen and attaching it's controller
- * in it's state.
+ * It initializes with being center on the screen and attaching its controller
+ * in its state.
  * It communicates with the Controller by calling methods of it when an action
  * fires of in
- * each of it's components.
+ * each of its components.
  **/
 
 public class CarView extends JFrame {
@@ -29,8 +29,8 @@ public class CarView extends JFrame {
 
     private final JButton gasButton = new JButton("Gas");
     private final JButton brakeButton = new JButton("Brake");
-    private final JButton turboOnButton = new JButton("TurbOn");
-    private final JButton turboOffButton = new JButton("TurbOff");
+    private final JButton turboOnButton = new JButton("TurboOn");
+    private final JButton turboOffButton = new JButton("TurboOff");
     private final JButton liftBedButton = new JButton("Raise");
     private final JButton lowerBedButton = new JButton("Lower");
     private final JButton turnRightButton = new JButton("Right");

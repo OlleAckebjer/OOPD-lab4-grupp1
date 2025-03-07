@@ -2,11 +2,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import controller.CarController;
-import model.CarFactory;
-import model.CarModel;
-import model.Garage;
+import model.*;
 // import model.GarageImagePair;
-import model.Volvo240;
 import view.CarView;
 import view.DrawPanel;
 import view.ImageFactory;
@@ -16,8 +13,8 @@ import java.awt.image.BufferedImage;
 
 public class CarGame {
         public static void main(String[] args) {
-
                 CarModel carModel = new CarModel();
+                CarManager carManager = new CarManager(carModel);
 
                 carModel.addCars(
                         new ArrayList<>(Arrays.asList(CarFactory.createVolvo240(new Point(0, 0)),
@@ -39,7 +36,7 @@ public class CarGame {
 
                 CarView frame = new CarView("CarSim 1.0", drawPanel);
 
-                CarController carController = new CarController(carModel, frame);
+                CarController carController = new CarController(carManager, frame);
 
                 carModel.start();
         }
