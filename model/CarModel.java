@@ -9,8 +9,7 @@ public class CarModel implements ICarImages{
     private final CarSimManager carSim;
     private final GarageManager garageManager;
     private final CarEventManager carEventManager;
-    private final List<ICarModelListener> listeners = new ArrayList<>();
-    private Garage<Volvo240> volvoGarage;
+
 
     public CarModel() {
         this.carSim = new CarSimManager(this, 50);
