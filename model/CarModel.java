@@ -1,13 +1,8 @@
 package model;
 
-import model.Cars.Direction;
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-// TODO: Currently responsible for far too many things. Break actions into a class, and timer simulation into another?
 public class CarModel implements ICarImages{
 
     ArrayList<Cars> cars = new ArrayList<>();
