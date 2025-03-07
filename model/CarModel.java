@@ -14,7 +14,6 @@ public class CarModel {
     private final Timer timer;
     private final List<ICarModelListener> listeners = new ArrayList<>();
     private Garage<Volvo240> volvoGarage;
-    private final int distanceThreshold = 25;
     private final ArrayList<Cars> cars = new ArrayList<>();
     private final int X;
     private final int Y;
@@ -88,12 +87,19 @@ public class CarModel {
                 if (car instanceof Volvo240) {
                     int x2 = getGarage().getPosition().x;
                     int y2 = getGarage().getPosition().y;
+                    int garageWidth = getGarage().getWidth();
+                    int garageHeight = getGarage().getHeight();
 
-                    double distance = Math.sqrt(Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2));
-                    if (distance < distanceThreshold) {
+                    int carWidth = car.getWidth();
+                    int carHeight = car.getHeight();
+
+                    if (x + carWidth >= x2 && x <= x2 + garageWidth &&
+                            y + carHeight >= y2 && y <= y2 + garageHeight) {
+
                         loadCarToWorkshop(car);
                         continue;
                     }
+
                 }
                 car.move();
             }

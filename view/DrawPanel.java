@@ -11,11 +11,9 @@ import model.Cars;
 import model.ICarModelListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import model.NotLoadedState;
 import model.Saab95;
 import model.Scania;
-// This panel represents the animated part of the view with the car images.
 import model.Volvo240;
 
 public class DrawPanel extends JPanel implements ICarModelListener {
@@ -35,12 +33,6 @@ public class DrawPanel extends JPanel implements ICarModelListener {
         this.carImages = carImages;
     }
 
-    /*
-     * public void addCarImage(BufferedImage carImage) {
-     * carImages.add(carImage);
-     * }
-     */
-
     public void setImageToCar() {
         if (carModel.getLastCar() instanceof Volvo240) {
             carImages.add(ImageFactory.createVolvoImage());
@@ -48,12 +40,14 @@ public class DrawPanel extends JPanel implements ICarModelListener {
             carImages.add(ImageFactory.createSaabImage());
         } else if (carModel.getLastCar() instanceof Scania) {
             carImages.add(ImageFactory.createScaniaImage());
-
         }
+
     }
 
     public void removeImage() {
-        carImages.remove(carImages.size() - 1);
+        if (carImages.size() > 0) {
+            carImages.remove(carImages.size() - 1);
+        }
     }
 
     // This method is called each time the panel updates/refreshes/repaints itself
@@ -64,8 +58,6 @@ public class DrawPanel extends JPanel implements ICarModelListener {
 
         for (int i = 0; i < cars.size(); i++) {
             if (cars.get(i).getState() instanceof NotLoadedState) {
-                cars.get(i).getDirection();
-
                 g.drawImage(carImages.get(i), cars.get(i).getX(), cars.get(i).getY(), null);
             }
         }
