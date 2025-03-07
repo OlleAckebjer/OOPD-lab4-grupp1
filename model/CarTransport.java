@@ -7,8 +7,12 @@ public class CarTransport extends Cars implements IHasFlatbed {
     private boolean isRampDown = false;
     private final ArrayList<Cars> loadedCars = new ArrayList<>();
 
+    public CarTransport(Point position) {
+        super(2, 700, Color.WHITE, "Scania", new Point(position));
+    }
+
     public CarTransport() {
-        super(2, 700, Color.WHITE, "Scania", new Point(0, 0));
+        this(new Point(0, 0));
     }
 
     // Helper method to check if the car is moving
@@ -50,14 +54,14 @@ public class CarTransport extends Cars implements IHasFlatbed {
         if (loadedCars.contains(car)) {
             throw new IllegalArgumentException("Can't add the same car twice");
         }
-        if (car.isLoaded()) {
+        if (!(car.getState() instanceof NotLoadedState)) {
             throw new IllegalArgumentException("Can't add a loaded car");
         }
         if (car.getCurrentSpeed() > 0) {
             throw new IllegalArgumentException("Can't add a moving car");
         }
         loadedCars.add(car);
-        car.load();
+        car.setState(new LoadedState());
     }
 
     public Cars getLastCar() {
@@ -68,7 +72,8 @@ public class CarTransport extends Cars implements IHasFlatbed {
             throw new IllegalArgumentException("Can't get the last car of an empty flatbed");
         }
 
-        loadedCars.getLast().unload();
+        loadedCars.getLast().setState(new NotLoadedState());
+
         return loadedCars.removeLast();
     }
 

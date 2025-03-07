@@ -6,10 +6,8 @@ import model.Cars.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 // TODO: Currently responsible for far too many things. Break actions into a class, and timer simulation into another?
 public class CarModel implements ICarsArrayList {
@@ -94,16 +92,16 @@ public class CarModel implements ICarsArrayList {
     private boolean isCarOutOfBounds(Cars car) {
         int x = car.getX();
         int y = car.getY();
-        Direction dir = car.getDirection(); // Assuming Direction is an enum
+        Direction dir = car.getDirection();
 
         boolean movingOutOfBounds = false;
         if (x < 0 && dir == Direction.WEST) {
             movingOutOfBounds = true;
-        } else if (x > 800 - carWidth && dir == Direction.EAST) { // Assuming 800 is the width boundary
+        } else if (x > 800 - carWidth && dir == Direction.EAST) {
             movingOutOfBounds = true;
         } else if (y < 0 && dir == Direction.SOUTH) {
             movingOutOfBounds = true;
-        } else if (y > 560 - carHeight && dir == Direction.NORTH) { // Assuming 600 is the height boundary
+        } else if (y > 560 - carHeight && dir == Direction.NORTH) {
             movingOutOfBounds = true;
         }
 

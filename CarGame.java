@@ -15,24 +15,21 @@ import model.ICarsArrayList;
 import model.Volvo240;
 import view.CarView;
 import view.DrawPanel;
+import view.ICarsImages;
 import view.ImageFactory;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-public class Application {
+public class CarGame {
         public static void main(String[] args) {
 
                 CarModel carModel = new CarModel();
 
                 carModel.addCars(
-                                new ArrayList<>(Arrays.asList(CarFactory.createVolvo240(), CarFactory.createSaab95(),
-                                                CarFactory.createScania())));
-
-                ICarsArrayList.carImages.addAll(Arrays.asList(
-                                ImageFactory.createVolvoImage(),
-                                ImageFactory.createSaabImage(),
-                                ImageFactory.createScaniaImage()));
+                                new ArrayList<>(Arrays.asList(CarFactory.createVolvo240(new Point(0, 0)),
+                                                CarFactory.createSaab95(new Point(0, 100)),
+                                                CarFactory.createScania(new Point(0, 200)))));
 
                 BufferedImage garageImage = ImageFactory.createImage("/pics/VolvoBrand.jpg");
 
@@ -42,6 +39,11 @@ public class Application {
                 ICarController carController = new CarController();
 
                 DrawPanel drawPanel = new DrawPanel(800, 560, carModel, garageImage);
+
+                drawPanel.addImages(new ArrayList<>(Arrays.asList(
+                                ImageFactory.createVolvoImage(),
+                                ImageFactory.createSaabImage(),
+                                ImageFactory.createScaniaImage())));
 
                 CarView frame = new CarView("CarSim 1.0", carController, carModel, drawPanel);
 

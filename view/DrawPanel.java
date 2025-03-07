@@ -10,11 +10,12 @@ import model.CarModel;
 import model.ICarModelListener;
 import model.ICarsArrayList;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import model.NotLoadedState;
 // This panel represents the animated part of the view with the car images.
 
-public class DrawPanel extends JPanel implements ICarsArrayList, ICarModelListener {
+public class DrawPanel extends JPanel implements ICarsArrayList, ICarModelListener, ICarsImages {
 
     private CarModel carModel;
     private BufferedImage garageImage;
@@ -27,7 +28,6 @@ public class DrawPanel extends JPanel implements ICarsArrayList, ICarModelListen
         this.carModel = carModel;
         carModel.addListener(this);
         this.garageImage = garageImage;
-
     }
 
     // This method is called each time the panel updates/refreshes/repaints itself

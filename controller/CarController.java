@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import model.*;
+import view.ICarsImages;
 import view.ImageFactory;
 
 /*
@@ -11,7 +12,7 @@ import view.ImageFactory;
  * Its responsibilities are to listen to the View and respond in an appropriate manner by
  * modifying the model state and the updating the view.
  */
-public class CarController implements ICarsArrayList, ICarController {
+public class CarController implements ICarsArrayList, ICarController, ICarsImages {
 
     // Calls the gas method for each car once
     public void gas(int amount) {
@@ -54,7 +55,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void turboOn() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasTurbo) {
-                ((Saab95) car).setTurboOn();
+                ((IHasTurbo) car).setTurboOn();
             }
         }
     }
@@ -62,7 +63,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void turboOff() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasTurbo) {
-                ((Saab95) car).setTurboOff();
+                ((IHasTurbo) car).setTurboOff();
             }
         }
     }
@@ -70,7 +71,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void liftBed() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasFlatbed) {
-                ((Scania) car).raiseRamp();
+                ((IHasFlatbed) car).raiseRamp();
             }
         }
     }
@@ -78,7 +79,7 @@ public class CarController implements ICarsArrayList, ICarController {
     public void lowerBed() {
         for (Cars car : ICarsArrayList.cars) {
             if (car instanceof IHasFlatbed) {
-                ((Scania) car).lowerRamp();
+                ((IHasFlatbed) car).lowerRamp();
             }
         }
     }
@@ -107,6 +108,7 @@ public class CarController implements ICarsArrayList, ICarController {
             } else if (newCar instanceof Scania) {
                 carImages.add(ImageFactory.createScaniaImage());
             }
+
         } else {
             System.out.println("Can't add more cars to the list");
         }
