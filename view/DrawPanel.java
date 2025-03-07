@@ -2,8 +2,6 @@ package view;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.CarModel;
@@ -33,7 +31,7 @@ public class DrawPanel extends JPanel implements ICarModelListener {
         this.carImages = carImages;
     }
 
-    public void setImageToCar() {
+    public void setImageToLastCar() {
         if (carModel.getLastCar() instanceof Volvo240) {
             carImages.add(ImageFactory.createVolvoImage());
         } else if (carModel.getLastCar() instanceof Saab95) {

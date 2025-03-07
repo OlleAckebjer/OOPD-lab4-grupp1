@@ -1,8 +1,5 @@
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import model.*;
 import view.CarView;
 import view.DrawPanel;
@@ -42,7 +39,7 @@ public class CarController {
             if (carModel.canCreateMoreCars()) {
                 carModel.addRandomCar();
 
-                drawPanel.setImageToCar();
+                drawPanel.setImageToLastCar();
             }
         });
         carView.removeCarButton.addActionListener(e -> {
