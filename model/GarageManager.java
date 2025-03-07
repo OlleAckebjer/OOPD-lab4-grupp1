@@ -10,12 +10,4 @@ public class GarageManager {
     public Garage<Volvo240> getGarage() {
         return volvoGarage;
     }
-
-    public void loadCarToWorkshop(Volvo240 car) {
-        if (!(car.getState() instanceof InGarageState)) {
-            car.stopEngine();
-            volvoGarage.addCar(car);
-            car.setState(new InGarageState());
-        }
-    }
 }
