@@ -1,124 +1,72 @@
 package controller;
 
 import java.awt.Point;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import model.*;
 import view.ICarsImages;
 import view.ImageFactory;
 
+import javax.swing.*;
+
 /*
  * This class represents the Controller part in the MVC pattern.
  * Its responsibilities are to listen to the View and respond in an appropriate manner by
  * modifying the model state and the updating the view.
  */
-public class CarController implements ICarsArrayList, ICarController, ICarsImages {
+public class CarController{
+    private final CarModel carModel;
 
-    // Calls the gas method for each car once
-    public void gas(int amount) {
-        double gas = ((double) amount) / 100;
-
-        for (Cars car : ICarsArrayList.cars) {
-            try {
-
-                car.gas(gas);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+    public CarController(CarModel carModel) {
+        this.carModel = carModel;
     }
 
-    public void brake(int amount) {
-        double brake = ((double) amount) / 100;
-
-        for (Cars car : ICarsArrayList.cars) {
-            car.brake(brake);
-        }
+    public ActionListener getGasActionListener(JSpinner gasSpinner) {
+        return e -> carModel.gas((int) gasSpinner.getValue());
     }
 
-    public void startCars() {
-        for (Cars car : ICarsArrayList.cars) {
-            try {
-                car.startEngine();
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+    public ActionListener getBrakeActionListener(JSpinner brakeSpinner) {
+        return e -> carModel.brake((int) brakeSpinner.getValue());
     }
 
-    public void stopCars() {
-        for (Cars car : ICarsArrayList.cars) {
-            car.stopEngine();
-        }
+    public ActionListener getStartActionListener() {
+        return e -> carModel.startCars();
     }
 
-    public void turboOn() {
-        for (Cars car : ICarsArrayList.cars) {
-            if (car instanceof IHasTurbo) {
-                ((IHasTurbo) car).setTurboOn();
-            }
-        }
+    public ActionListener getStopActionListener() {
+        return e -> carModel.stopCars();
     }
 
-    public void turboOff() {
-        for (Cars car : ICarsArrayList.cars) {
-            if (car instanceof IHasTurbo) {
-                ((IHasTurbo) car).setTurboOff();
-            }
-        }
+    public ActionListener getTurboOnActionListener() {
+        return e -> carModel.turboOn();
     }
 
-    public void liftBed() {
-        for (Cars car : ICarsArrayList.cars) {
-            if (car instanceof IHasFlatbed) {
-                ((IHasFlatbed) car).raiseRamp();
-            }
-        }
+    public ActionListener getTurboOffActionListener() {
+        return e -> carModel.turboOff();
     }
 
-    public void lowerBed() {
-        for (Cars car : ICarsArrayList.cars) {
-            if (car instanceof IHasFlatbed) {
-                ((IHasFlatbed) car).lowerRamp();
-            }
-        }
+    public ActionListener getLiftBedActionListener() {
+        return e -> carModel.liftBed();
     }
 
-    public void turnRight() {
-        for (Cars car : ICarsArrayList.cars) {
-            car.turnRight();
-        }
+    public ActionListener getLowerBedActionListener() {
+        return e -> carModel.lowerBed();
     }
 
-    public void turnLeft() {
-        for (Cars car : ICarsArrayList.cars) {
-            car.turnLeft();
-        }
+    public ActionListener getTurnRightActionListener() {
+        return e -> carModel.turnRight();
     }
 
-    public void addCar() {
-        if (cars.size() < 10) {
-            Cars newCar = CarFactory.createRandomCar();
-            cars.add(newCar);
-
-            if (newCar instanceof Volvo240) {
-                carImages.add(ImageFactory.createVolvoImage());
-            } else if (newCar instanceof Saab95) {
-                carImages.add(ImageFactory.createSaabImage());
-            } else if (newCar instanceof Scania) {
-                carImages.add(ImageFactory.createScaniaImage());
-            }
-
-        } else {
-            System.out.println("Can't add more cars to the list");
-        }
+    public ActionListener getTurnLeftActionListener() {
+        return e -> carModel.turnLeft();
     }
 
-    public void removeCar() {
-        if (!cars.isEmpty()) {
-            cars.removeLast();
-            carImages.removeLast();
-        }
+    public ActionListener getAddCarActionListener() {
+        return e -> carModel.addCar();
     }
 
+    public ActionListener getRemoveCarActionListener() {
+        return e -> carModel.removeCar();
+    }
 }

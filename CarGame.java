@@ -10,7 +10,6 @@ import controller.ICarController;
 import model.CarFactory;
 import model.CarModel;
 import model.Garage;
-import model.ICarsArrayList;
 // import model.GarageImagePair;
 import model.Volvo240;
 import view.CarView;
@@ -36,7 +35,7 @@ public class CarGame {
                 Garage<Volvo240> volvoGarage = new Garage<>(10, new Point(300, 300));
                 carModel.setGarage(volvoGarage);
 
-                ICarController carController = new CarController();
+                CarController carController = new CarController(carModel);
 
                 DrawPanel drawPanel = new DrawPanel(800, 560, carModel, garageImage);
 

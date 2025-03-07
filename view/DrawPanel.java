@@ -7,18 +7,19 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.CarModel;
+import model.Cars;
 import model.ICarModelListener;
-import model.ICarsArrayList;
 
 import java.util.ArrayList;
 import java.util.Objects;
 import model.NotLoadedState;
+
 // This panel represents the animated part of the view with the car images.
 
-public class DrawPanel extends JPanel implements ICarsArrayList, ICarModelListener, ICarsImages {
+public class DrawPanel extends JPanel implements ICarModelListener, ICarsImages {
 
-    private CarModel carModel;
-    private BufferedImage garageImage;
+    private final CarModel carModel;
+    private final BufferedImage garageImage;
 
     // Initializes the panel and reads the images
     public DrawPanel(int x, int y, CarModel carModel, BufferedImage garageImage) {
@@ -34,6 +35,8 @@ public class DrawPanel extends JPanel implements ICarsArrayList, ICarModelListen
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        ArrayList<Cars> cars = carModel.getCars();
 
         for (int i = 0; i < cars.size(); i++) {
             if (cars.get(i).getState() instanceof NotLoadedState) {
