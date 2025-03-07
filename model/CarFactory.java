@@ -23,10 +23,10 @@ public class CarFactory {
         return car;
     }
 
-    public static Cars createRandomCar() {
+    public static Cars createRandomCar(int x, int y) {
 
         Random rand = new Random();
-        Point randomPoint = new Point(rand.nextInt(600), rand.nextInt(400));
+        Point randomPoint = new Point(rand.nextInt(x), rand.nextInt(y));
 
         ArrayList<Cars> randomCars = new ArrayList<>(
                 Arrays.asList(createVolvo240(randomPoint), createSaab95(randomPoint),

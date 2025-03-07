@@ -17,11 +17,17 @@ public class CarModel {
     private final ArrayList<Cars> cars = new ArrayList<>();
     private final int X;
     private final int Y;
+    private final int maxAmountCars;
 
-    public CarModel(int x, int y, int delay) {
+    public CarModel(int x, int y, int delay, int maxAmountCars) {
         this.X = x;
         this.Y = y;
         this.timer = new Timer(delay, new TimerListener());
+        this.maxAmountCars = maxAmountCars;
+    }
+
+    public boolean canCreateMoreCars() {
+        return cars.size() < maxAmountCars;
     }
 
     public int getX() {
@@ -218,15 +224,13 @@ public class CarModel {
         }
     }
 
-    public void addCar() {
+    public void addCar(Cars car) {
+        cars.add(car);
+    }
 
-        if (cars.size() < 10) {
-            Cars newCar = CarFactory.createRandomCar();
-            cars.add(newCar);
-
-        } else {
-            System.out.println("Can't add more cars to the list");
-        }
+    public void addRandomCar() {
+        Cars randomCar = CarFactory.createRandomCar(this.X, this.Y);
+        addCar(randomCar);
 
     }
 

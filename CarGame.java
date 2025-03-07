@@ -19,8 +19,9 @@ public class CarGame {
                 int delay = 50;
                 int X = 800;
                 int Y = 560;
+                int maxAmountCars = 10;
 
-                CarModel carModel = new CarModel(X, Y, delay);
+                CarModel carModel = new CarModel(X, Y, delay, maxAmountCars);
 
                 carModel.addCars(
                                 new ArrayList<>(Arrays.asList(CarFactory.createVolvo240(new Point(0, 0)),
