@@ -95,7 +95,8 @@ public class CarsTest {
         assertEquals(0, volvo.getCurrentSpeed());
         volvo.brake(1);
         assertEquals(0, volvo.getCurrentSpeed());
-
+        
+        volvo.startEngine();
         for (int i = 0; i < 100; i++) {
             volvo.gas(1);
         }
