@@ -4,19 +4,14 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Garage<T extends Cars> implements IHasPosition, IHasSize {
+public class Garage<T extends Cars> implements IHasPosition {
     private final int maxCapacity;
     private final List<T> cars = new ArrayList<>();
-    private Point position;
-    private final int X;
-    private final int Y;
+    private final Point position;
 
-    public Garage(int size, Point position, int X, int Y) {
+    public Garage(int size, Point position) {
         this.maxCapacity = size;
         this.position = new Point(position); // Defensive copying
-        this.X = X;
-        this.Y = Y;
-
     }
 
     public Point getPosition() {
@@ -46,15 +41,5 @@ public class Garage<T extends Cars> implements IHasPosition, IHasSize {
 
     public T getLastCar() {
         return getCar(cars.size() - 1);
-    }
-
-    @Override
-    public int getWidth() {
-        return X;
-    }
-
-    @Override
-    public int getHeight() {
-        return Y;
     }
 }
