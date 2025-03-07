@@ -38,18 +38,18 @@ public class CarView extends JFrame {
 
     private final JButton gasButton = new JButton("Gas");
     private final JButton brakeButton = new JButton("Brake");
-    private final JButton turboOnButton = new JButton("Turbo on");
-    private final JButton turboOffButton = new JButton("Turbo off");
-    private final JButton liftBedButton = new JButton("Raise Bed");
-    private final JButton lowerBedButton = new JButton("Lower Bed");
-    private final JButton turnRightButton = new JButton("Turn right");
-    private final JButton turnLeftButton = new JButton("Turn left");
+    private final JButton turboOnButton = new JButton("TurbOn");
+    private final JButton turboOffButton = new JButton("TurbOff");
+    private final JButton liftBedButton = new JButton("Raise");
+    private final JButton lowerBedButton = new JButton("Lower");
+    private final JButton turnRightButton = new JButton("Right");
+    private final JButton turnLeftButton = new JButton("Left");
 
     private final JButton startButton = new JButton("Start all cars");
     private final JButton stopButton = new JButton("Stop all cars");
 
-    private final JButton addCarButton = new JButton("Add a car");
-    private final JButton removeCarButton = new JButton("Remove a car");
+    private final JButton addCarButton = new JButton("Add");
+    private final JButton removeCarButton = new JButton("Remove");
 
     // Constructor
     public CarView(String framename, ICarController cc, CarModel model, DrawPanel drawPanel) {
@@ -89,14 +89,12 @@ public class CarView extends JFrame {
         controlPanel.add(gasButton, 0);
         controlPanel.add(brakeButton, 1);
         controlPanel.add(turboOnButton, 2);
-        controlPanel.add(liftBedButton, 3);
-        controlPanel.add(turnLeftButton, 4);
-        controlPanel.add(turnRightButton, 5);
-
-        controlPanel.add(turboOffButton, 6);
+        controlPanel.add(turboOffButton, 3);
+        controlPanel.add(addCarButton, 4);
+        controlPanel.add(turnLeftButton, 5);
+        controlPanel.add(turnRightButton, 6);
         controlPanel.add(lowerBedButton, 7);
-
-        controlPanel.add(addCarButton, 8);
+        controlPanel.add(liftBedButton, 8);
         controlPanel.add(removeCarButton, 9);
 
         controlPanel.setPreferredSize(new Dimension((X / 2) + 4, 200));
